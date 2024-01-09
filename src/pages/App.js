@@ -1,6 +1,6 @@
-import "./App.css";
-import SearchPage from "./pages/SearchPage";
-import ListBooksPage from "./pages/ListBooksPage";
+import "./css/App.css";
+import SearchPage from "./SearchPage";
+import ListBooksPage from "./ListBooksPage";
 import { Route, Routes } from "react-router-dom";
 
 function App() {

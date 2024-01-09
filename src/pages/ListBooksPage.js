@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Bookshelf from "../components/Bookshelf";
+import { useState } from "react";
 
 const shelfs = [
   { name: "Currently Reading", id: "currentlyReading" },
@@ -7,7 +8,7 @@ const shelfs = [
   { name: "Read", id: "read" },
 ];
 
-const books = [
+const dummyBooks = [
   {
     id: 1,
     title: "To Kill a Mockingbird",
@@ -34,6 +35,16 @@ const books = [
   },
 ];
 const ListBooksPage = () => {
+  const [books, setBooks] = useState(dummyBooks);
+
+  const changeShelf = (updatedShelf, title) => {
+    setBooks((books) =>
+      books.map((book) =>
+        book.title === title ? { ...book, shelf: updatedShelf } : book
+      )
+    );
+  };
+
   return (
     <div className="list-books">
       <div className="list-books-title">
@@ -46,6 +57,7 @@ const ListBooksPage = () => {
               key={shelf.id}
               title={shelf.name}
               books={books.filter((book) => book.shelf === shelf.id)}
+              changeShelf={changeShelf}
             />
           ))}
         </div>

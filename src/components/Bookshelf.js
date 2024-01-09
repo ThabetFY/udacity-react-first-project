@@ -1,7 +1,7 @@
 import React from "react";
 import Book from "./Book";
 
-const Bookshelf = ({ title, books }) => {
+const Bookshelf = ({ title, books, changeShelf }) => {
   return (
     <div className="bookshelf">
       <h2 className="bookshelf-title">{title}</h2>
@@ -14,6 +14,7 @@ const Bookshelf = ({ title, books }) => {
               authors={book.authors}
               bookCover={book.bookCover}
               shelf={book.shelf}
+              changeShelf={changeShelf}
             />
           ))}
         </ol>

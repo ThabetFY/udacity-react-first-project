@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
 import Bookshelf from "../components/Bookshelf";
 
-const shelfs = ["Currently Reading", "Want to Read", "Read"];
+const shelfs = [
+  { name: "Currently Reading", id: "currentlyReading" },
+  { name: "Want to Read", id: "wantToRead" },
+  { name: "Read", id: "read" },
+];
 
 const books = [
   {
@@ -10,7 +14,7 @@ const books = [
     authors: "Harper Lee",
     bookCover:
       'url("http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api")',
-    shelf: "Currently Reading",
+    shelf: "currentlyReading",
   },
   {
     id: 2,
@@ -18,7 +22,7 @@ const books = [
     authors: "Orson Scott Card",
     bookCover:
       'url("http://books.google.com/books/content?id=yDtCuFHXbAYC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72RRiTR6U5OUg3IY_LpHTL2NztVWAuZYNFE8dUuC0VlYabeyegLzpAnDPeWxE6RHi0C2ehrR9Gv20LH2dtjpbcUcs8YnH5VCCAH0Y2ICaKOTvrZTCObQbsfp4UbDqQyGISCZfGN&source=gbs_api")',
-    shelf: "Want to Read",
+    shelf: "wantToRead",
   },
   {
     id: 3,
@@ -26,7 +30,7 @@ const books = [
     authors: "Mark Twain",
     bookCover:
       'url("http://books.google.com/books/content?id=32haAAAAMAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72yckZ5f5bDFVIf7BGPbjA0KYYtlQ__nWB-hI_YZmZ-fScYwFy4O_fWOcPwf-pgv3pPQNJP_sT5J_xOUciD8WaKmevh1rUR-1jk7g1aCD_KeJaOpjVu0cm_11BBIUXdxbFkVMdi&source=gbs_api")',
-    shelf: "Read",
+    shelf: "read",
   },
 ];
 const ListBooksPage = () => {
@@ -39,9 +43,9 @@ const ListBooksPage = () => {
         <div>
           {shelfs.map((shelf) => (
             <Bookshelf
-              key={shelf}
-              title={shelf}
-              books={books.filter((book) => book.shelf === shelf)}
+              key={shelf.id}
+              title={shelf.name}
+              books={books.filter((book) => book.shelf === shelf.id)}
             />
           ))}
         </div>

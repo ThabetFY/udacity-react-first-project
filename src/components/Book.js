@@ -8,7 +8,7 @@ const Book = ({ title, authors, bookCover, shelf, changeShelf }) => {
             style={{
               width: 128,
               height: 193,
-              backgroundImage: bookCover,
+              backgroundImage: `url(${bookCover})`,
             }}
           ></div>
           <div className="book-shelf-changer">
@@ -24,7 +24,7 @@ const Book = ({ title, authors, bookCover, shelf, changeShelf }) => {
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
               <option value="read">Read</option>
-              <option value="none">None</option>
+              {shelf !== "none" ? <option value="none">None</option> : ""}
             </select>
           </div>
         </div>

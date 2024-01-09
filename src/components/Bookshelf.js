@@ -12,9 +12,9 @@ const Bookshelf = ({ title, books, changeShelf }) => {
               key={book.id}
               title={book.title}
               authors={book.authors}
-              bookCover={book.bookCover}
+              bookCover={book.imageLinks.thumbnail}
               shelf={book.shelf}
-              changeShelf={changeShelf}
+              changeShelf={() => {}}
             />
           ))}
         </ol>

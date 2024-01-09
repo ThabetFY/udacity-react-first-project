@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Bookshelf from "../components/Bookshelf";
 
 const ListBooksPage = () => {
   return (
@@ -8,7 +9,10 @@ const ListBooksPage = () => {
       </div>
       <div className="list-books-content">
         <div>
-          <div className="bookshelf">
+          <Bookshelf title="Currently Reading" books={[]} />
+          <Bookshelf title="Want to Read" books={[]} />
+          <Bookshelf title="Read" books={[]} />
+          {/* <div className="bookshelf">
             <h2 className="bookshelf-title">Currently Reading</h2>
             <div className="bookshelf-books">
               <ol className="books-grid">
@@ -242,7 +246,7 @@ const ListBooksPage = () => {
                 </li>
               </ol>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="open-search">

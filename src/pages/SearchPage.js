@@ -8,7 +8,7 @@ const SearchPage = ({ books, onChangeShelf }) => {
   const [searchedBooks, setSearchedBooks] = useState(undefined);
 
   const updateQuery = (query) => {
-    setQuery(query.trim());
+    setQuery(query);
   };
 
   useEffect(() => {

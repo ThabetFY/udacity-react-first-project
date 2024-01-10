@@ -22,12 +22,19 @@ function App() {
   };
 
   useEffect(() => {
+    let unmounted = false;
+
     const getContacts = async () => {
       const result = await BooksAPI.getAll();
       setBooks(result);
     };
 
-    getContacts();
+    if (!unmounted) {
+      getContacts();
+    }
+    return () => {
+      unmounted = true;
+    };
   }, [books]);
   return (
     <div className="app">

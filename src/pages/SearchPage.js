@@ -15,10 +15,21 @@ const SearchPage = ({ books, onChangeShelf }) => {
     let unmounted = false;
 
     const searchBooks = async () => {
+      if (!query) return;
+
       try {
         const results = await BooksAPI.search(query);
 
+        if (!results || results.error === "empty query") {
+          return;
+        }
+
         const updatedResults = results.map((resultBook) => {
+          if (resultBook.imageLinks === undefined) {
+            resultBook.imageLinks = {
+              thumbnail: "",
+            };
+          }
           const match = books.find((book) => book.id === resultBook.id);
           if (!match) {
             return { ...resultBook, shelf: "none" };

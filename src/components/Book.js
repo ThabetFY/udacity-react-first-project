@@ -1,6 +1,13 @@
 import { useState } from "react";
+import BookDetailsPopup from "./BookDetailsPopup";
 
 const Book = ({ book, onChangeShelf }) => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const handlePopup = () => {
+    setIsPopupOpen(!isPopupOpen);
+  };
+
   // The Dragging functionality is done with the help of AI(Pieces).
 
   const [isDragging, setIsDragging] = useState(false);
@@ -53,7 +60,11 @@ const Book = ({ book, onChangeShelf }) => {
               height: 193,
               backgroundImage: `url(${book.imageLinks.thumbnail})`,
             }}
+            onClick={handlePopup}
           ></div>
+          {isPopupOpen && (
+            <BookDetailsPopup book={book} onClose={handlePopup} />
+          )}
           <div className="book-shelf-changer">
             <select
               value={book.shelf}

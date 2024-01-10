@@ -3,9 +3,9 @@ import Book from "../components/Book";
 import { useEffect, useState } from "react";
 import * as BooksAPI from "../utils/BooksAPI";
 
-const SearchPage = ({ books }) => {
+const SearchPage = ({ books, onChangeShelf }) => {
   const [query, setQuery] = useState("");
-  const [searchedBooks, setSearchedBooks] = useState([]);
+  const [searchedBooks, setSearchedBooks] = useState(undefined);
 
   const updateQuery = (query) => {
     setQuery(query.trim());
@@ -39,7 +39,7 @@ const SearchPage = ({ books }) => {
     return () => {
       unmounted = true;
     };
-  }, [query]);
+  }, [query, books]);
 
   const displayedBooks = searchedBooks || books;
 
@@ -61,14 +61,7 @@ const SearchPage = ({ books }) => {
       <div className="search-books-results">
         <ol className="books-grid">
           {displayedBooks.map((book) => (
-            <Book
-              key={book.id}
-              title={book.title}
-              authors={book.authors}
-              bookCover={book.imageLinks?.thumbnail}
-              shelf={book.shelf}
-              changeShelf={() => {}}
-            />
+            <Book key={book.id} book={book} onChangeShelf={onChangeShelf} />
           ))}
         </ol>
       </div>

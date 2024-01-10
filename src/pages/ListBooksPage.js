@@ -7,7 +7,7 @@ const shelfs = [
   { name: "Read", id: "read" },
 ];
 
-const ListBooksPage = ({ books }) => {
+const ListBooksPage = ({ books, onChangeShelf }) => {
   return (
     <div className="list-books">
       <div className="list-books-title">
@@ -20,7 +20,7 @@ const ListBooksPage = ({ books }) => {
               key={shelf.id}
               title={shelf.name}
               books={books.filter((book) => book.shelf === shelf.id)}
-              changeShelf={() => {}}
+              onChangeShelf={onChangeShelf}
             />
           ))}
         </div>

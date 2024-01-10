@@ -1,4 +1,4 @@
-const Book = ({ title, authors, bookCover, shelf, changeShelf }) => {
+const Book = ({ book, onChangeShelf }) => {
   return (
     <li>
       <div className="book">
@@ -8,14 +8,14 @@ const Book = ({ title, authors, bookCover, shelf, changeShelf }) => {
             style={{
               width: 128,
               height: 193,
-              backgroundImage: `url(${bookCover})`,
+              backgroundImage: `url(${book.imageLinks.thumbnail})`,
             }}
           ></div>
           <div className="book-shelf-changer">
             <select
-              value={shelf}
+              value={book.shelf}
               onChange={(event) => {
-                changeShelf(event.target.value, title);
+                onChangeShelf(book, event.target.value);
               }}
             >
               <option value="none" disabled>
@@ -24,12 +24,12 @@ const Book = ({ title, authors, bookCover, shelf, changeShelf }) => {
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
               <option value="read">Read</option>
-              {shelf !== "none" ? <option value="none">None</option> : ""}
+              {book.shelf !== "none" ? <option value="none">None</option> : ""}
             </select>
           </div>
         </div>
-        <div className="book-title">{title}</div>
-        <div className="book-authors">{authors}</div>
+        <div className="book-title">{book.title}</div>
+        <div className="book-authors">{book.authors}</div>
       </div>
     </li>
   );

@@ -8,6 +8,19 @@ import * as BooksAPI from "../utils/BooksAPI";
 function App() {
   const [books, setBooks] = useState([]);
 
+  const ChangeShelfHanlder = (bookID, shelf) => {
+    setBooks((books) =>
+      books.map((book) => {
+        if (book.id === bookID) {
+          book.shelf = shelf;
+        }
+        return book;
+      })
+    );
+    console.log(bookID, shelf);
+    BooksAPI.update(bookID, shelf);
+  };
+
   useEffect(() => {
     const getContacts = async () => {
       const result = await BooksAPI.getAll();
@@ -15,12 +28,23 @@ function App() {
     };
 
     getContacts();
-  }, []);
+  }, [books]);
   return (
     <div className="app">
       <Routes>
-        <Route exact path="/" element={<ListBooksPage books={books} />} />
-        <Route path="/search" element={<SearchPage books={books} />} />
+        <Route
+          exact
+          path="/"
+          element={
+            <ListBooksPage books={books} onChangeShelf={ChangeShelfHanlder} />
+          }
+        />
+        <Route
+          path="/search"
+          element={
+            <SearchPage books={books} onChangeShelf={ChangeShelfHanlder} />
+          }
+        />
       </Routes>
     </div>
   );

@@ -1,6 +1,49 @@
+import { useState } from "react";
+
 const Book = ({ book, onChangeShelf }) => {
+  // The Dragging functionality is done with the help of AI(Pieces).
+
+  const [isDragging, setIsDragging] = useState(false);
+  const [isOver, setIsOver] = useState(false);
+
+  const handleDragStart = (e) => {
+    setIsDragging(true);
+    e.dataTransfer.setData("text/plain", JSON.stringify(book));
+  };
+
+  const handleDragEnd = () => {
+    setIsDragging(false);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsOver(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsOver(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsOver(false);
+    const droppedBook = JSON.parse(e.dataTransfer.getData("text/plain"));
+    onChangeShelf(droppedBook, book.shelf);
+  };
+
+  const opacity = isDragging ? 0.5 : 1;
+  const backgroundColor = isOver ? "lightgray" : "white";
+
   return (
-    <li>
+    <li
+      draggable
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+      style={{ opacity, backgroundColor }}
+    >
       <div className="book">
         <div className="book-top">
           <div

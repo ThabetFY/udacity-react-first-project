@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import * as BooksAPI from "../utils/BooksAPI";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import * as BooksAPI from "../utils/BooksAPI";
 import Book from "../components/Book";
 
 const SearchPage = ({ books, onChangeShelf }) => {
@@ -16,7 +16,10 @@ const SearchPage = ({ books, onChangeShelf }) => {
     let unmounted = false;
 
     const searchBooks = async () => {
-      if (!query) return;
+      if (!query) {
+        setSearchedBooks(undefined);
+        return;
+      }
 
       try {
         const results = await BooksAPI.search(query);

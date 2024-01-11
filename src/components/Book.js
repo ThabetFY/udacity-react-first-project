@@ -84,18 +84,12 @@ const Book = ({ book, onChangeShelf }) => {
                 onChangeShelf(book, event.target.value);
               }}
             >
-              <option value="none" disabled>
-                Move to...
-              </option>
-              {shelfs.map((shelf) =>
-                book.shelf === "none" && shelf.shelfName === "none" ? (
-                  ""
-                ) : (
-                  <option key={shelf.id} value={shelf.shelfName}>
-                    {shelf.shelfDisplayName}
-                  </option>
-                )
-              )}
+              <option disabled>Move to...</option>
+              {shelfs.map((shelf) => (
+                <option key={shelf.id} value={shelf.shelfName}>
+                  {shelf.shelfDisplayName}
+                </option>
+              ))}
             </select>
           </div>
         </div>

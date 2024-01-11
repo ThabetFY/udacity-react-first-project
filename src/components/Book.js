@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 import BookDetailsPopup from "./BookDetailsPopup";
 
 const Book = ({ book, onChangeShelf }) => {
@@ -87,6 +88,11 @@ const Book = ({ book, onChangeShelf }) => {
       </div>
     </li>
   );
+};
+
+Book.propTypes = {
+  book: PropTypes.object.isRequired,
+  onChangeShelf: PropTypes.func.isRequired,
 };
 
 export default Book;

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 const BookDetailsPopup = ({ book, onClose }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
@@ -24,6 +25,11 @@ const BookDetailsPopup = ({ book, onClose }) => {
       </p>
     </div>
   );
+};
+
+BookDetailsPopup.prototype = {
+  book: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default BookDetailsPopup;

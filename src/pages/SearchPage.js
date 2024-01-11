@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
-import Book from "../components/Book";
 import { useEffect, useState } from "react";
 import * as BooksAPI from "../utils/BooksAPI";
+import PropTypes from "prop-types";
+import Book from "../components/Book";
 
 const SearchPage = ({ books, onChangeShelf }) => {
   const [query, setQuery] = useState("");
@@ -80,4 +81,8 @@ const SearchPage = ({ books, onChangeShelf }) => {
   );
 };
 
+SearchPage.propTypes = {
+  books: PropTypes.array.isRequired,
+  onChangeShelf: PropTypes.func.isRequired,
+};
 export default SearchPage;

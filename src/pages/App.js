@@ -44,9 +44,7 @@ function App() {
         />
         <Route
           path="/search"
-          element={
-            <SearchPage books={books} onChangeShelf={ChangeShelfHanlder} />
-          }
+          element={<SearchPage onChangeShelf={ChangeShelfHanlder} />}
         />
       </Routes>
     </div>

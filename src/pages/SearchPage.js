@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 import * as BooksAPI from "../utils/BooksAPI";
 import Book from "../components/Book";
 
-const SearchPage = ({ books, onChangeShelf }) => {
+const SearchPage = ({ onChangeShelf }) => {
   const [query, setQuery] = useState("");
-  const [displayedBooks, setDisplayedBooks] = useState(books);
+  const [displayedBooks, setDisplayedBooks] = useState([]);
   const [noBooksFound, setNoBooksFound] = useState(false);
 
   const updateQuery = (query) => {
@@ -22,7 +22,7 @@ const SearchPage = ({ books, onChangeShelf }) => {
       const booksInShelves = await BooksAPI.getAll();
 
       if (!query) {
-        setDisplayedBooks(booksInShelves);
+        setDisplayedBooks([]);
         return;
       }
       const searchReturnedBooks = await BooksAPI.search(query);

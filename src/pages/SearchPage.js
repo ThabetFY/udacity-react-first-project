@@ -1,42 +1,76 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import * as BooksAPI from "../utils/BooksAPI";
 import Book from "../components/Book";
-import debounce from "lodash.debounce";
 
 const SearchPage = ({ books, onChangeShelf }) => {
   const [query, setQuery] = useState("");
-  const [searchedBooks, setSearchedBooks] = useState(undefined);
+  const [displayedBooks, setDisplayedBooks] = useState(books);
+  const [noBooksFound, setNoBooksFound] = useState(false);
 
   const updateQuery = (query) => {
+    setQuery(query);
     if (query === "") {
-      setSearchedBooks(undefined);
+      setNoBooksFound(false);
       return;
     }
-    setQuery(query);
-    handleDebouncedSearch(query);
   };
-  const handleDebouncedSearch = useCallback(
-    debounce(async (query) => {
-      try {
-        const results = await BooksAPI.search(query);
-        // console.log(results);
 
-        if (!results || results.error === "empty query") {
-          setSearchedBooks(undefined);
-          return;
+  const handleSearch = useCallback(async (query) => {
+    try {
+      const booksInShelves = await BooksAPI.getAll();
+
+      if (!query) {
+        setDisplayedBooks(booksInShelves);
+        return;
+      }
+      const searchReturnedBooks = await BooksAPI.search(query);
+
+      if (!searchReturnedBooks) {
+        console.log("not started searching");
+        setDisplayedBooks(booksInShelves);
+        return;
+      }
+
+      if (searchReturnedBooks.error === "empty query") {
+        console.log("empty query");
+        setNoBooksFound(true);
+        return;
+      }
+      setNoBooksFound(false);
+
+      searchReturnedBooks.forEach((searchBook) => {
+        const bookFound = booksInShelves.find(
+          (book) => book.id === searchBook.id
+        );
+
+        if (bookFound) {
+          searchBook.shelf = bookFound.shelf;
+        } else {
+          searchBook.shelf = "none";
         }
 
-        setSearchedBooks(results);
-      } catch (error) {
-        console.error(error);
-      }
-    }, 300),
-    []
-  );
+        if (!searchBook.imageLinks) {
+          searchBook.imageLinks = {
+            thumbnail: "",
+          };
+        }
+      });
 
-  const displayedBooks = searchedBooks || books;
+      setDisplayedBooks(searchReturnedBooks);
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    const Timer = setTimeout(() => {
+      handleSearch(query);
+    }, 300);
+
+    return () => clearTimeout(Timer);
+  }, [query, handleSearch]);
 
   return (
     <div className="search-books">
@@ -53,11 +87,16 @@ const SearchPage = ({ books, onChangeShelf }) => {
           />
         </div>
       </div>
+
       <div className="search-books-results">
         <ol className="books-grid">
-          {displayedBooks.map((book) => (
-            <Book key={book.id} book={book} onChangeShelf={onChangeShelf} />
-          ))}
+          {noBooksFound ? (
+            <p>No books found</p>
+          ) : (
+            displayedBooks.map((book) => (
+              <Book key={book.id} book={book} onChangeShelf={onChangeShelf} />
+            ))
+          )}
         </ol>
       </div>
     </div>

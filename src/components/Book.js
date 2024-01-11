@@ -88,7 +88,7 @@ const Book = ({ book, onChangeShelf }) => {
                 Move to...
               </option>
               {shelfs.map((shelf) =>
-                shelf.shelfName === "none" ? (
+                book.shelf === "none" && shelf.shelfName === "none" ? (
                   ""
                 ) : (
                   <option key={shelf.id} value={shelf.shelfName}>

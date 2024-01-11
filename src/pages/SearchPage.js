@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import * as BooksAPI from "../utils/BooksAPI";
 import Book from "../components/Book";
+import debounce from "lodash.debounce";
 
 const SearchPage = ({ books, onChangeShelf }) => {
   const [query, setQuery] = useState("");
@@ -10,51 +11,26 @@ const SearchPage = ({ books, onChangeShelf }) => {
 
   const updateQuery = (query) => {
     setQuery(query);
+    handleDebouncedSearch(query);
   };
-
-  useEffect(() => {
-    let unmounted = false;
-
-    const searchBooks = async () => {
-      if (!query) {
-        setSearchedBooks(undefined);
-        return;
-      }
-
+  const handleDebouncedSearch = useCallback(
+    debounce(async (query) => {
       try {
         const results = await BooksAPI.search(query);
+        // console.log(results);
 
         if (!results || results.error === "empty query") {
+          setSearchedBooks(undefined);
           return;
         }
 
-        const updatedResults = results.map((resultBook) => {
-          if (resultBook.imageLinks === undefined) {
-            resultBook.imageLinks = {
-              thumbnail: "",
-            };
-          }
-          const match = books.find((book) => book.id === resultBook.id);
-          if (!match) {
-            return { ...resultBook, shelf: "none" };
-          }
-          return resultBook;
-        });
-
-        setSearchedBooks(updatedResults);
+        setSearchedBooks(results);
       } catch (error) {
         console.error(error);
       }
-    };
-
-    if (!unmounted) {
-      searchBooks();
-    }
-
-    return () => {
-      unmounted = true;
-    };
-  }, [query, books]);
+    }, 300),
+    []
+  );
 
   const displayedBooks = searchedBooks || books;
 

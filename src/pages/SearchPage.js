@@ -10,6 +10,10 @@ const SearchPage = ({ books, onChangeShelf }) => {
   const [searchedBooks, setSearchedBooks] = useState(undefined);
 
   const updateQuery = (query) => {
+    if (query === "") {
+      setSearchedBooks(undefined);
+      return;
+    }
     setQuery(query);
     handleDebouncedSearch(query);
   };

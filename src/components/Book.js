@@ -2,6 +2,17 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import BookDetailsPopup from "./BookDetailsPopup";
 
+const shelfs = [
+  {
+    id: 1,
+    shelfName: "currentlyReading",
+    shelfDisplayName: "Currently Reading",
+  },
+  { id: 2, shelfName: "wantToRead", shelfDisplayName: "Want To Read" },
+  { id: 3, shelfName: "read", shelfDisplayName: "Read" },
+  { id: 4, shelfName: "none", shelfDisplayName: "None" },
+];
+
 const Book = ({ book, onChangeShelf }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -76,10 +87,15 @@ const Book = ({ book, onChangeShelf }) => {
               <option value="none" disabled>
                 Move to...
               </option>
-              <option value="currentlyReading">Currently Reading</option>
-              <option value="wantToRead">Want to Read</option>
-              <option value="read">Read</option>
-              {book.shelf !== "none" ? <option value="none">None</option> : ""}
+              {shelfs.map((shelf) =>
+                shelf.shelfName === "none" ? (
+                  ""
+                ) : (
+                  <option key={shelf.id} value={shelf.shelfName}>
+                    {shelf.shelfDisplayName}
+                  </option>
+                )
+              )}
             </select>
           </div>
         </div>

@@ -8,17 +8,12 @@ import * as BooksAPI from "../utils/BooksAPI";
 function App() {
   const [books, setBooks] = useState([]);
 
-  const ChangeShelfHanlder = (bookID, shelf) => {
-    setBooks((books) =>
-      books.map((book) => {
-        if (book.id === bookID) {
-          book.shelf = shelf;
-        }
-        return book;
-      })
-    );
-    console.log(bookID, shelf);
-    BooksAPI.update(bookID, shelf);
+  const ChangeShelfHanlder = (book, shelf) => {
+    book.shelf = shelf;
+    BooksAPI.update(book, shelf).then(() => {
+      setBooks([...books.filter((b) => b.id !== book.id), book]);
+    });
+    // console.log(bookID, shelf);
   };
 
   useEffect(() => {
@@ -35,7 +30,8 @@ function App() {
     return () => {
       unmounted = true;
     };
-  }, [books]);
+  }, []);
+
   return (
     <div className="app">
       <Routes>
